@@ -11,11 +11,15 @@ let package = Package(
             name: "NetworkLayer",
             targets: ["NetworkLayer"]),
     ],
+    dependencies: [
+        .package(url: "https://github.com/mxcl/PromiseKit", "8.1.1" ..< "9.0.0")
+    ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
-            name: "NetworkLayer"),
+            name: "NetworkLayer",
+            dependencies: ["PromiseKit"]),
         .testTarget(
             name: "NetworkLayerTests",
             dependencies: ["NetworkLayer"]),

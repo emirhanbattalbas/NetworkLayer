@@ -7,6 +7,7 @@ public class FormURLEncoder: ParameterEncoder {
     
     public init(encoder: URLQueryItemEncoderProtocol = URLQueryItemEncoder()) {
         self.encoder = encoder
+        
     }
     
     open func encode<Parameters: Encodable>(_ parameters: Parameters?,

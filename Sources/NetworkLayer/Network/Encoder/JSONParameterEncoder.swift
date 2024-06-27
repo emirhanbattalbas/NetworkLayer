@@ -1,6 +1,6 @@
 import Foundation
 
-class JSONParameterEncoder: ParameterEncoder {
+public class JSONParameterEncoder: ParameterEncoder {
     
     static let shared = JSONParameterEncoder()
     public let encoder: JSONEncoder

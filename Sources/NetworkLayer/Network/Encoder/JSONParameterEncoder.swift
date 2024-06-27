@@ -2,8 +2,8 @@ import Foundation
 
 public class JSONParameterEncoder: ParameterEncoder {
     
-    static let shared = JSONParameterEncoder()
-    public let encoder: JSONEncoder
+    public static let shared = JSONParameterEncoder()
+    let encoder: JSONEncoder
 
     public init(encoder: JSONEncoder = JSONEncoder()) {
         self.encoder = encoder

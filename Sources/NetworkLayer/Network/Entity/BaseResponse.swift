@@ -5,5 +5,4 @@ public struct BaseResponse<T: Decodable>: Decodable {
     public var error: CustomError?
     public var path: String?
     public var traceId: String?
-    public var timestamp: Int?
 }

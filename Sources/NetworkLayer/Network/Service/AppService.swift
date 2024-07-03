@@ -4,16 +4,14 @@ import PromiseKit
 public class AppService: APIService {
     
     public let loader: RequestLoaderProtocol = AppRequestLoader()
-    let config: APIConfiguration
+    public var session: APISession = .unauthorized
     
-    public init(config: APIConfiguration) {
-        self.config = config
-    }
+    public init() { }
     
     public func send<T>(request: T) -> Promise<T.ResponseType> where T : Request {
         return Promise<T.ResponseType> { seal in
-            let _request = try request.asURLRequest(config: self.config)
-            
+            let _request = try request.asURLRequest(baseUrl: request.url)
+
             firstly {
                 return self.loader.load(request: _request)
             }.done { response in
@@ -22,6 +20,17 @@ public class AppService: APIService {
             } .catch { error in
                 seal.reject(error)
             }
+        }
+    }
+    
+    private func authorize(request: URLRequest) -> URLRequest {
+        switch session {
+        case let .authorized(token):
+            var mutableRequest = request
+            mutableRequest.setValue(token, forHTTPHeaderField: "Authorization")
+            return mutableRequest
+        default:
+            return request
         }
     }
 }

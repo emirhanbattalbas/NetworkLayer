@@ -10,7 +10,7 @@ public protocol Request: URLRequestConvertible {
     var method: HttpMethod { get }
     var encoder: ParameterEncoder { get }
     var parser: ResponseParser<ResponseType> { get }
-    var isSetAuthentication: Bool { get }
+    var url: URL { get }
 }
 
 extension Request {
@@ -33,6 +33,10 @@ extension Request {
     }
     
     public var parameters: Parameter? {
+        return nil
+    }
+    
+    public var url: URL? {
         return nil
     }
 }

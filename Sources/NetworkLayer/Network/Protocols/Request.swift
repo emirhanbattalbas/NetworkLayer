@@ -11,6 +11,7 @@ public protocol Request: URLRequestConvertible {
     var encoder: ParameterEncoder { get }
     var parser: ResponseParser<ResponseType> { get }
     var url: URL { get }
+    var isSetAuthorization: Bool { get }
 }
 
 extension Request {
@@ -28,10 +29,6 @@ extension Request {
         }
     }
     
-    public var isSetAuthentication: Bool {
-        return true
-    }
-    
     public var parameters: Parameter? {
         return nil
     }
@@ -39,4 +36,9 @@ extension Request {
     public var url: URL? {
         return nil
     }
+    
+    public var isSetAuthorization: Bool {
+        return true
+    }
+    
 }

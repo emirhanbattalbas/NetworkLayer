@@ -10,7 +10,8 @@ public class AppService: APIService {
     
     public func send<T>(request: T) -> Promise<T.ResponseType> where T : Request {
         return Promise<T.ResponseType> { seal in
-            let _request = try request.asURLRequest(baseUrl: request.url)
+            var _request = try request.asURLRequest(baseUrl: request.url)
+            _request = authorize(request: _request)
 
             firstly {
                 return self.loader.load(request: _request)

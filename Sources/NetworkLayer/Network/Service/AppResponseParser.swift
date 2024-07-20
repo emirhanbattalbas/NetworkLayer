@@ -18,10 +18,29 @@ public class AppResponseParser {
             }
         }
     }
+    
+    static func responseParserEmpty() -> ResponseParser<Void> {
+        return { httpResponse in
+            switch httpResponse.httpCode {
+            case 401:
+                throw GenericErrorType.notAuthorized
+            case 200...:
+                return
+            default:
+                throw CustomError(statusCode: httpResponse.httpCode, error: httpResponse.apiName)
+            }
+        }
+    }
 }
 
 extension Request where ResponseType: Decodable {
     public var parser: ResponseParser<ResponseType> {
         return AppResponseParser.responseParser()
+    }
+}
+
+extension Request where ResponseType == Void {
+    public var parser: ResponseParser<ResponseType> {
+        return AppResponseParser.responseParserEmpty()
     }
 }

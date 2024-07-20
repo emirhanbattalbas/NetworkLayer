@@ -32,7 +32,7 @@ public class MultipartFormEncoder: ParameterEncoder {
         }
         body.append("--\(boundary)--\r\n")
         
-        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        request.setValue("multipart/form-data", forHTTPHeaderField: "Content-Type")
         request.httpBody = body
         return request
     }

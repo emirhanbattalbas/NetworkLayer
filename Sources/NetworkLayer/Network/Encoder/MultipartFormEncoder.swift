@@ -4,11 +4,9 @@ public class MultipartFormEncoder: ParameterEncoder {
     
     public static let shared = MultipartFormEncoder()
     let boundary: String
-    let value: String?
     
-    public init(boundary: String = UUID().uuidString, value: String? = nil) {
+    public init(boundary: String = UUID().uuidString) {
         self.boundary = boundary
-        self.value = value
     }
     
     open func encode<Parameters: Encodable>(_ parameters: Parameters?,
@@ -33,11 +31,8 @@ public class MultipartFormEncoder: ParameterEncoder {
             body.append("\r\n")
         }
         body.append("--\(boundary)--\r\n")
-        if let value = value {
-            request.setValue(value, forHTTPHeaderField: "Content-Type")
-        } else {
-            request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-        }
+        
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         request.httpBody = body
         return request
     }

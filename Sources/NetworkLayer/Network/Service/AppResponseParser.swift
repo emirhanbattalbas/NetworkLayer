@@ -19,7 +19,7 @@ public class AppResponseParser {
         }
     }
     
-    static func responseParserEmpty() -> ResponseParser<Void> {
+    static func emptyResponseParser() -> ResponseParser<Void> {
         return { httpResponse in
             switch httpResponse.httpCode {
             case 401:
@@ -31,16 +31,32 @@ public class AppResponseParser {
             }
         }
     }
+    
+    static func customResponseParser<T>() -> ResponseParser<T> where T: Decodable {
+        return { httpResponse in
+            switch httpResponse.httpCode {
+            case 200...:
+                let response = try JSONDecoder().decode(T.self, from: httpResponse.data)
+                return response
+            default:
+                throw CustomError(statusCode: httpResponse.httpCode, error: httpResponse.apiName)
+            }
+        }
+    }
 }
 
 extension Request where ResponseType: Decodable {
     public var parser: ResponseParser<ResponseType> {
         return AppResponseParser.responseParser()
     }
+    
+    public var customParser: ResponseParser<ResponseType> {
+        return AppResponseParser.customResponseParser()
+    }
 }
 
 extension Request where ResponseType == Void {
     public var parser: ResponseParser<ResponseType> {
-        return AppResponseParser.responseParserEmpty()
+        return AppResponseParser.emptyResponseParser()
     }
 }

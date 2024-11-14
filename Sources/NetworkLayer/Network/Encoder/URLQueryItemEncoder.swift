@@ -62,6 +62,7 @@ public class URLQueryItemEncoder: URLQueryItemEncoderProtocol {
     return items
   }
   
+    
   private static let formURLEncodedAllowedCharacters: CharacterSet = {
     var characters = CharacterSet.urlQueryAllowed
     characters.remove(charactersIn: ":#[]@?/!$&'()*,;=")

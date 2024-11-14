@@ -23,7 +23,7 @@ public class FormURLEncoder: ParameterEncoder {
             components.queryItems = queryItems
         }
 
-        request.httpBody = components.query?.data(using: .utf8)
+        request.httpBody = encoder.encodeToFormURLEncodedData(queryItems: queryItems)
         request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         return request
     }

@@ -2,6 +2,7 @@ import Foundation
 
 public protocol URLQueryItemEncoderProtocol {
     func encode(_ value: Encodable) throws -> [URLQueryItem]
+    func encodeToFormURLEncodedData(queryItems: [URLQueryItem]) -> Data
 }
 protocol URLQueryItemEncoderDateFormatter {
   func string(from date: Date) -> String
@@ -73,7 +74,7 @@ public class URLQueryItemEncoder: URLQueryItemEncoderProtocol {
   ///
   /// - Parameter queryItems: The URLQueryItems to encode
   /// - Returns: A data represents the encoded with an x-www-urlencoded compatible representation
-  public static func encodeToFormURLEncodedData(queryItems: [URLQueryItem]) -> Data {
+    public func encodeToFormURLEncodedData(queryItems: [URLQueryItem]) -> Data {
     var components = URLComponents()
     components.queryItems = queryItems.map({
       URLQueryItem(
